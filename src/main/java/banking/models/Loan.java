@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 
 @Entity
 public class Loan {
@@ -26,6 +27,7 @@ public class Loan {
     @NotNull
     private Double priceRemaining;
 
+    @Null
     private String des;
 
     @ManyToOne(targetEntity = TypeLoan.class)
