@@ -11,7 +11,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Null;
+import lombok.Data;
 
+@Data
 @Entity
 public class Contract {
     @Id

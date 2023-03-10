@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import banking.responsitories.UserRespository;
 
+import banking.responsitories.UserRepository;
 import banking.models.User;
 
 @RestController
 @RequestMapping("user")
 public class UserController {
     @Autowired
-    private UserRespository userRepository;
+    private UserRepository userRepository;
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable("id") Long id) {

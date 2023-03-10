@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import banking.models.User;
 
-public interface UserRespository extends CrudRepository<User, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
 
 }
