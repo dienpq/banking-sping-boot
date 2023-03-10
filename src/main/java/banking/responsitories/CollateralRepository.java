@@ -1,5 +1,9 @@
 package banking.responsitories;
 
-public class CollateralRepository {
+import org.springframework.data.repository.CrudRepository;
+
+import banking.models.User;
+
+public interface CollateralRepository extends CrudRepository<User, Long> {
 
 }

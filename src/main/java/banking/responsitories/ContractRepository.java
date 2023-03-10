@@ -1,5 +1,9 @@
 package banking.responsitories;
 
-public class ContractRepository {
+import org.springframework.data.repository.CrudRepository;
+
+import banking.models.Contract;
+
+public interface ContractRepository extends CrudRepository<Contract, Long> {
 
 }

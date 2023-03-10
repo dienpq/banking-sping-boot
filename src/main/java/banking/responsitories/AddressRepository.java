@@ -1,5 +1,9 @@
 package banking.responsitories;
 
-public class AddressRepository {
+import org.springframework.data.repository.CrudRepository;
+
+import banking.models.Address;
+
+public interface AddressRepository extends CrudRepository<Address, Long> {
 
 }

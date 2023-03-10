@@ -1,5 +1,9 @@
 package banking.responsitories;
 
-public class LoanRepository {
+import org.springframework.data.repository.CrudRepository;
+
+import banking.models.Loan;
+
+public interface LoanRepository extends CrudRepository<Loan, Long> {
 
 }
