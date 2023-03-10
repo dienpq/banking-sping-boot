@@ -15,36 +15,27 @@ import lombok.Data;
 
 @Data
 @Entity
-public class User {
+public class Bank {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    private String account;
+    private String name;
 
     @NotNull
-    private String password;
-
-    @NotNull
-    private String fullname;
-
-    @NotNull
-    private String birthday;
-
-    @NotNull
-    private String gender;
-
-    @NotNull
-    private String phone;
+    private String hotline;
 
     @NotNull
     private String email;
 
-    @NotNull
-    private Double price;
+    private String des;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<Loan> loans;
+    private List<Address> addresses;
+
+    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<TypeLoan> typeLoans;
 }
