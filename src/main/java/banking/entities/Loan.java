@@ -3,14 +3,13 @@ package banking.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import lombok.Data;
 
 @Data
@@ -20,26 +19,28 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     private String code;
 
-    @NotNull
+    @Column(nullable = false)
     private Double price;
 
-    @NotNull
+    @Column(nullable = false)
     private Double priceRemaining;
 
-    @Null
     private String des;
 
+    @Column(nullable = false)
     @ManyToOne(targetEntity = TypeLoan.class)
     @JsonIgnore
     private TypeLoan typeLoan;
 
+    @Column(nullable = false)
     @ManyToOne(targetEntity = User.class)
     @JsonIgnore
     private User user;
 
+    @Column(nullable = false)
     @OneToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     private Contract contract;

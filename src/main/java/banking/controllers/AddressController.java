@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import banking.dto.AddressDto;
 import banking.entities.Address;
 import banking.entities.Bank;
 import banking.responsitories.AddressRepository;
@@ -36,8 +37,9 @@ public class AddressController {
     }
 
     @PostMapping
-    public ResponseEntity<Address> createAddress(@RequestBody Address address) {
-        Optional<Bank> bank = bankRepository.findById(address.getBank_id());
+    public ResponseEntity<Address> createAddress(@RequestBody AddressDto addressDto) {
+        Optional<Bank> bank = bankRepository.findById(addressDto.getBankId());
+        Address address = new Address();
         address.setBank(bank.get());
         Address savedAddress = addressRepository.save(address);
         return ResponseEntity.created(URI.create("/addresses/" + savedAddress.getId()))

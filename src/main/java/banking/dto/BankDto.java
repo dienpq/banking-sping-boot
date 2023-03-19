@@ -4,18 +4,15 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class TypeLoan {
+public class BankDto {
     @NotNull
     private String name;
 
     @NotNull
-    private String invitation;
+    private String hotline;
 
     @NotNull
-    private Double interest;
+    private String email;
 
     private String des;
-
-    @NotNull
-    private Long bankId;
 }

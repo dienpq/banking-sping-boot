@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class Collateral {
+public class CollateralDto {
     @NotNull
     private String name;
 

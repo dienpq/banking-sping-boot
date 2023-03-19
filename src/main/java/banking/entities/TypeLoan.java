@@ -5,13 +5,13 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
@@ -21,21 +21,23 @@ public class TypeLoan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     private String name;
 
-    @NotNull
+    @Column(nullable = false)
     private String invitation;
 
-    @NotNull
+    @Column(nullable = false)
     private Double interest;
 
     private String des;
 
+    @Column(nullable = false)
     @ManyToOne(targetEntity = Bank.class)
     @JsonIgnore
     private Bank bank;
 
+    @Column(nullable = false)
     @OneToMany(mappedBy = "typeLoan", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Loan> loans;

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class CommitmentContent {
+public class CommitmentContentDto {
     @NotNull
     private String des;
 

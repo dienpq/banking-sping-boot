@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import lombok.Data;
 
 @Data
-public class Contract {
+public class ContractDto {
     private String code;
 
     private String fullname;

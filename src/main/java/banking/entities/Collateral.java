@@ -2,12 +2,12 @@ package banking.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
@@ -17,18 +17,19 @@ public class Collateral {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     private String name;
 
-    @NotNull
+    @Column(nullable = false)
     private String owner;
 
-    @NotNull
+    @Column(nullable = false)
     private String relationOwnerAndCustomer;
 
-    @NotNull
+    @Column(nullable = false)
     private String status;
 
+    @Column(nullable = false)
     @ManyToOne(targetEntity = Contract.class)
     @JsonIgnore
     private Contract contract;
