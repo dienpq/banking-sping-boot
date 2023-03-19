@@ -21,10 +21,6 @@ public class Address {
     @NotNull
     private String name;
 
-    @NotNull
-    @Column(insertable = false, updatable = false)
-    private Long bank_id;
-
     @ManyToOne(targetEntity = Bank.class)
     @JsonIgnore
     private Bank bank;
