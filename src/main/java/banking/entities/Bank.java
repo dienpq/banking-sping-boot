@@ -1,4 +1,6 @@
-package banking.models;
+package banking.entities;
+
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -7,40 +9,33 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import lombok.Data;
 
 @Data
 @Entity
-public class Loan {
+public class Bank {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    private String code;
+    private String name;
 
     @NotNull
-    private Double price;
+    private String hotline;
 
     @NotNull
-    private Double priceRemaining;
+    private String email;
 
-    @Null
     private String des;
 
-    @ManyToOne(targetEntity = TypeLoan.class)
+    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private TypeLoan typeLoan;
+    private List<Address> addresses;
 
-    @ManyToOne(targetEntity = User.class)
+    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private User user;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Contract contract;
+    private List<TypeLoan> typeLoans;
 }

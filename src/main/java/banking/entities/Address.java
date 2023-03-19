@@ -1,7 +1,8 @@
-package banking.models;
+package banking.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +20,10 @@ public class Address {
 
     @NotNull
     private String name;
+
+    @NotNull
+    @Column(insertable = false, updatable = false)
+    private Long bank_id;
 
     @ManyToOne(targetEntity = Bank.class)
     @JsonIgnore

@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import banking.entities.Bank;
 import banking.responsitories.BankRepository;
-import banking.models.Bank;
 
 @RestController
 @RequestMapping("bank")
@@ -36,13 +36,14 @@ public class BankController {
         if (savedBank == null) {
             throw new RuntimeException("Failed to save bank");
         }
-        return ResponseEntity.created(URI.create("/banks/" + savedBank.getId()))
+        return ResponseEntity.created(URI.create("/bank/" + savedBank.getId()))
                 .body(savedBank);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Bank> updateBank(@PathVariable("id") Long id, @RequestBody Bank bank) {
         Optional<Bank> existingBank = bankRepository.findById(id);
+        System.out.println(existingBank);
         if (!existingBank.isPresent()) {
             return ResponseEntity.notFound().build();
         }

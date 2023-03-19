@@ -14,14 +14,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import banking.models.Address;
+import banking.entities.Address;
+import banking.entities.Bank;
 import banking.responsitories.AddressRepository;
+import banking.responsitories.BankRepository;
 
 @RestController
 @RequestMapping("address")
 public class AddressController {
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private BankRepository bankRepository;
 
     @GetMapping("/{id}")
     public ResponseEntity<Address> getAddress(@PathVariable("id") Long id) {
@@ -32,11 +37,10 @@ public class AddressController {
 
     @PostMapping
     public ResponseEntity<Address> createAddress(@RequestBody Address address) {
+        Optional<Bank> bank = bankRepository.findById(address.getBank_id());
+        address.setBank(bank.get());
         Address savedAddress = addressRepository.save(address);
-        if (savedAddress == null) {
-            throw new RuntimeException("Failed to save address");
-        }
-        return ResponseEntity.created(URI.create("/addresss/" + savedAddress.getId()))
+        return ResponseEntity.created(URI.create("/addresses/" + savedAddress.getId()))
                 .body(savedAddress);
     }
 

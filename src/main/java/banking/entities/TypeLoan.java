@@ -1,4 +1,4 @@
-package banking.models;
+package banking.entities;
 
 import java.util.List;
 
@@ -9,42 +9,38 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 @Entity
-public class User {
+public class TypeLoan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    private String account;
+    private String name;
 
     @NotNull
-    private String password;
+    private String invitation;
 
     @NotNull
-    private String fullname;
+    private Double interest;
 
-    @NotNull
-    private String birthday;
+    private String des;
 
-    @NotNull
-    private String gender;
+    @ManyToOne(targetEntity = Bank.class)
+    @JsonIgnore
+    private Bank bank;
 
-    @NotNull
-    private String phone;
-
-    @NotNull
-    private String email;
-
-    @NotNull
-    private Double price;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "typeLoan", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Loan> loans;
+
+    @OneToMany(mappedBy = "typeLoan", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<CommitmentContent> commitmentContents;
 }

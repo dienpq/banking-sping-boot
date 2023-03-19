@@ -2,7 +2,7 @@ package banking.responsitories;
 
 import org.springframework.data.repository.CrudRepository;
 
-import banking.models.User;
+import banking.entities.User;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 

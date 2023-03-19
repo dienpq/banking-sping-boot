@@ -2,7 +2,7 @@ package banking.responsitories;
 
 import org.springframework.data.repository.CrudRepository;
 
-import banking.models.Collateral;
+import banking.entities.Collateral;
 
 public interface CollateralRepository extends CrudRepository<Collateral, Long> {
 

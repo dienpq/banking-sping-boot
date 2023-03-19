@@ -1,4 +1,4 @@
-package banking.models;
+package banking.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

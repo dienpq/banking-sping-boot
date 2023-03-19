@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import banking.models.CommitmentContent;
+import banking.entities.CommitmentContent;
 import banking.responsitories.CommitmentContentRepository;
 
 @RestController

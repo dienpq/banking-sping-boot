@@ -1,4 +1,4 @@
-package banking.models;
+package banking.entities;
 
 import java.util.List;
 
@@ -15,27 +15,36 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Bank {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    private String name;
+    private String account;
 
     @NotNull
-    private String hotline;
+    private String password;
+
+    @NotNull
+    private String fullname;
+
+    @NotNull
+    private String birthday;
+
+    @NotNull
+    private String gender;
+
+    @NotNull
+    private String phone;
 
     @NotNull
     private String email;
 
-    private String des;
+    @NotNull
+    private Double price;
 
-    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Address> addresses;
-
-    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<TypeLoan> typeLoans;
+    private List<Loan> loans;
 }

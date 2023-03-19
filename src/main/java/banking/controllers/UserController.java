@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import banking.entities.User;
 import banking.responsitories.UserRepository;
-import banking.models.User;
 
 @RestController
 @RequestMapping("user")

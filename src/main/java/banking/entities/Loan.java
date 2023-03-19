@@ -1,35 +1,46 @@
-package banking.models;
+package banking.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import lombok.Data;
 
 @Data
 @Entity
-public class Collateral {
+public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    private String name;
+    private String code;
 
     @NotNull
-    private String owner;
+    private Double price;
 
     @NotNull
-    private String relationOwnerAndCustomer;
+    private Double priceRemaining;
 
-    @NotNull
-    private String status;
+    @Null
+    private String des;
 
-    @ManyToOne(targetEntity = Contract.class)
+    @ManyToOne(targetEntity = TypeLoan.class)
+    @JsonIgnore
+    private TypeLoan typeLoan;
+
+    @ManyToOne(targetEntity = User.class)
+    @JsonIgnore
+    private User user;
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     private Contract contract;
 }
