@@ -18,7 +18,7 @@ import banking.entities.TypeLoan;
 import banking.responsitories.TypeLoanRepository;
 
 @RestController
-@RequestMapping("typeLoan")
+@RequestMapping("type-loan")
 public class TypeLoanController {
     @Autowired
     private TypeLoanRepository typeLoanRepository;

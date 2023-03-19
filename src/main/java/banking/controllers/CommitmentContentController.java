@@ -18,7 +18,7 @@ import banking.entities.CommitmentContent;
 import banking.responsitories.CommitmentContentRepository;
 
 @RestController
-@RequestMapping("commitmentContent")
+@RequestMapping("commitment-content")
 public class CommitmentContentController {
     @Autowired
     private CommitmentContentRepository commitmentContentRepository;
