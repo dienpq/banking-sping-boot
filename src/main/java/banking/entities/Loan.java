@@ -8,8 +8,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.Data;
 
 @Data
@@ -30,17 +32,17 @@ public class Loan {
 
     private String des;
 
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     @ManyToOne(targetEntity = TypeLoan.class)
     @JsonIgnore
     private TypeLoan typeLoan;
 
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     @ManyToOne(targetEntity = User.class)
     @JsonIgnore
     private User user;
 
-    @Column(nullable = false)
+    @PrimaryKeyJoinColumn
     @OneToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     private Contract contract;

@@ -20,7 +20,6 @@ public class Address {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     @ManyToOne(targetEntity = Bank.class)
     @JsonIgnore
     private Bank bank;

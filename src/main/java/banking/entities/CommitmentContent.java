@@ -20,7 +20,6 @@ public class CommitmentContent {
     @Column(nullable = false)
     private String des;
 
-    @Column(nullable = false)
     @ManyToOne(targetEntity = TypeLoan.class)
     @JsonIgnore
     private TypeLoan typeLoan;

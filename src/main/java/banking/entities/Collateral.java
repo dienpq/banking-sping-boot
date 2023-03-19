@@ -29,7 +29,6 @@ public class Collateral {
     @Column(nullable = false)
     private String status;
 
-    @Column(nullable = false)
     @ManyToOne(targetEntity = Contract.class)
     @JsonIgnore
     private Contract contract;
