@@ -6,12 +6,6 @@ import lombok.Data;
 @Data
 public class UserDto {
     @NotNull
-    private String account;
-
-    @NotNull
-    private String password;
-
-    @NotNull
     private String fullname;
 
     @NotNull

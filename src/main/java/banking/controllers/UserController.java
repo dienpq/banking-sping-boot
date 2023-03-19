@@ -1,6 +1,5 @@
 package banking.controllers;
 
-import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,14 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import banking.dto.UserDto;
 import banking.entities.User;
 import banking.responsitories.UserRepository;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("user")
@@ -30,23 +30,24 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User savedUser = userRepository.save(user);
-        if (savedUser == null) {
-            throw new RuntimeException("Failed to save user");
-        }
-        return ResponseEntity.created(URI.create("/users/" + savedUser.getId()))
-                .body(savedUser);
-    }
-
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto userDto) {
         Optional<User> existingUser = userRepository.findById(id);
         if (!existingUser.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+        User user = new User();
+
         user.setId(id);
+        user.setAccount(existingUser.get().getAccount());
+        user.setPassword(existingUser.get().getPassword());
+        user.setFullname(userDto.getFullname());
+        user.setBirthday(userDto.getBirthday());
+        user.setGender(userDto.getGender());
+        user.setPhone(userDto.getPhone());
+        user.setEmail(userDto.getEmail());
+        user.setPrice(userDto.getPrice());
+
         User savedUser = userRepository.save(user);
         return ResponseEntity.ok(savedUser);
     }
