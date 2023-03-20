@@ -1,9 +1,9 @@
 package banking.controllers;
 
-import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import banking.dto.ContractDto;
 import banking.entities.Contract;
+import banking.entities.Loan;
+import banking.response.ErrorResponse;
+import banking.response.SuccessResponse;
 import banking.responsitories.ContractRepository;
+import banking.responsitories.LoanRepository;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("contract")
@@ -23,41 +29,161 @@ public class ContractController {
     @Autowired
     private ContractRepository contractRepository;
 
+    @Autowired
+    private LoanRepository loanRepository;
+
     @GetMapping("/{id}")
-    public ResponseEntity<Contract> getContract(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> getContract(@PathVariable("id") Long id) {
         Optional<Contract> contract = contractRepository.findById(id);
-        return contract.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        if (!contract.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        return ResponseEntity.ok(contract);
     }
 
     @PostMapping
-    public ResponseEntity<Contract> createContract(@RequestBody Contract contract) {
-        Contract savedContract = contractRepository.save(contract);
-        if (savedContract == null) {
-            throw new RuntimeException("Failed to save contract");
+    public ResponseEntity<Object> createContract(@Valid @RequestBody ContractDto contractDto) {
+        Optional<Loan> loan = loanRepository.findById(contractDto.getLoanId());
+        if (!loan.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
-        return ResponseEntity.created(URI.create("/contracts/" + savedContract.getId()))
-                .body(savedContract);
+        Contract contract = new Contract();
+
+        contract.setCode(contractDto.getCode());
+        contract.setFullname(contractDto.getFullname());
+        contract.setGender(contractDto.getGender());
+        contract.setBirthday(contractDto.getBirthday());
+        contract.setNational(contractDto.getNational());
+        contract.setIdentifier(contractDto.getIdentifier());
+        contract.setDateIdentifier(contractDto.getDateIdentifier());
+        contract.setAddressIdentifier(contractDto.getAddressIdentifier());
+        contract.setDomicileResidence(contractDto.getDomicileResidence());
+        contract.setCurrentResidence(contractDto.getCurrentResidence());
+        contract.setPhone(contractDto.getPhone());
+        contract.setEmail(contractDto.getEmail());
+        contract.setMaritalStatus(contractDto.getMaritalStatus());
+        contract.setAcademicLevel(contractDto.getAcademicLevel());
+        contract.setHomeOwnership(contractDto.getHomeOwnership());
+        contract.setVehicles(contractDto.getVehicles());
+        contract.setNameCompany(contractDto.getNameCompany());
+        contract.setPhoneCompany(contractDto.getPhoneCompany());
+        contract.setAddressCompany(contractDto.getAddressCompany());
+        contract.setJob(contractDto.getJob());
+        contract.setTypeContractJob(contractDto.getTypeContractJob());
+        contract.setTypeReceiveWage(contractDto.getTypeReceiveWage());
+        contract.setLoanPurpose(contractDto.getLoanPurpose());
+        contract.setDesLoanPurpose(contractDto.getDesLoanPurpose());
+        contract.setPriceLoan(contractDto.getPriceLoan());
+        contract.setTimeLoan(contractDto.getTimeLoan());
+        contract.setTimeLoanCurrent(contractDto.getTimeLoanCurrent());
+        contract.setDebtPaymentMethod(contractDto.getDebtPaymentMethod());
+        contract.setOtherSuggestions(contractDto.getOtherSuggestions());
+        contract.setWage(contractDto.getWage());
+        contract.setDividend(contractDto.getDividend());
+        contract.setProfit(contractDto.getProfit());
+        contract.setPropertyRentalIncome(contractDto.getPropertyRentalIncome());
+        contract.setOtherIncome(contractDto.getOtherIncome());
+        contract.setWageWifeOrHusband(contractDto.getWageWifeOrHusband());
+        contract.setDividendWifeOrHusband(contractDto.getDividendWifeOrHusband());
+        contract.setProfitWifeOrHusband(contractDto.getProfitWifeOrHusband());
+        contract.setPropertyRentalIncomeWifeOrHusband(contractDto.getPropertyRentalIncomeWifeOrHusband());
+        contract.setOtherIncomeWifeOrHusband(contractDto.getOtherIncomeWifeOrHusband());
+        contract.setWageSupporter(contractDto.getWageSupporter());
+        contract.setDividendSupporter(contractDto.getDividendSupporter());
+        contract.setProfitSupporter(contractDto.getProfitSupporter());
+        contract.setPropertyRentalIncomeSupporter(contractDto.getPropertyRentalIncomeSupporter());
+        contract.setOtherIncomeSupporter(contractDto.getOtherIncomeSupporter());
+        contract.setCostOfLiving(contractDto.getCostOfLiving());
+        contract.setInterestPaymentsOnLoans(contractDto.getInterestPaymentsOnLoans());
+        contract.setOtherCosts(contractDto.getOtherCosts());
+        contract.setOtherExtraordinaryIncome(contractDto.getOtherExtraordinaryIncome());
+        contract.setLoan(loan.get());
+
+        Contract savedContract = contractRepository.save(contract);
+        return ResponseEntity.ok(savedContract);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Contract> updateContract(@PathVariable("id") Long id, @RequestBody Contract contract) {
+    public ResponseEntity<Object> updateContract(@PathVariable("id") Long id,
+            @Valid @RequestBody ContractDto contractDto) {
         Optional<Contract> existingContract = contractRepository.findById(id);
         if (!existingContract.isPresent()) {
-            return ResponseEntity.notFound().build();
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
+        Optional<Loan> loan = loanRepository.findById(contractDto.getLoanId());
+        if (!loan.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        Contract contract = new Contract();
+
         contract.setId(id);
+        contract.setCode(contractDto.getCode());
+        contract.setFullname(contractDto.getFullname());
+        contract.setGender(contractDto.getGender());
+        contract.setBirthday(contractDto.getBirthday());
+        contract.setNational(contractDto.getNational());
+        contract.setIdentifier(contractDto.getIdentifier());
+        contract.setDateIdentifier(contractDto.getDateIdentifier());
+        contract.setAddressIdentifier(contractDto.getAddressIdentifier());
+        contract.setDomicileResidence(contractDto.getDomicileResidence());
+        contract.setCurrentResidence(contractDto.getCurrentResidence());
+        contract.setPhone(contractDto.getPhone());
+        contract.setEmail(contractDto.getEmail());
+        contract.setMaritalStatus(contractDto.getMaritalStatus());
+        contract.setAcademicLevel(contractDto.getAcademicLevel());
+        contract.setHomeOwnership(contractDto.getHomeOwnership());
+        contract.setVehicles(contractDto.getVehicles());
+        contract.setNameCompany(contractDto.getNameCompany());
+        contract.setPhoneCompany(contractDto.getPhoneCompany());
+        contract.setAddressCompany(contractDto.getAddressCompany());
+        contract.setJob(contractDto.getJob());
+        contract.setTypeContractJob(contractDto.getTypeContractJob());
+        contract.setTypeReceiveWage(contractDto.getTypeReceiveWage());
+        contract.setLoanPurpose(contractDto.getLoanPurpose());
+        contract.setDesLoanPurpose(contractDto.getDesLoanPurpose());
+        contract.setPriceLoan(contractDto.getPriceLoan());
+        contract.setTimeLoan(contractDto.getTimeLoan());
+        contract.setTimeLoanCurrent(contractDto.getTimeLoanCurrent());
+        contract.setDebtPaymentMethod(contractDto.getDebtPaymentMethod());
+        contract.setOtherSuggestions(contractDto.getOtherSuggestions());
+        contract.setWage(contractDto.getWage());
+        contract.setDividend(contractDto.getDividend());
+        contract.setProfit(contractDto.getProfit());
+        contract.setPropertyRentalIncome(contractDto.getPropertyRentalIncome());
+        contract.setOtherIncome(contractDto.getOtherIncome());
+        contract.setWageWifeOrHusband(contractDto.getWageWifeOrHusband());
+        contract.setDividendWifeOrHusband(contractDto.getDividendWifeOrHusband());
+        contract.setProfitWifeOrHusband(contractDto.getProfitWifeOrHusband());
+        contract.setPropertyRentalIncomeWifeOrHusband(contractDto.getPropertyRentalIncomeWifeOrHusband());
+        contract.setOtherIncomeWifeOrHusband(contractDto.getOtherIncomeWifeOrHusband());
+        contract.setWageSupporter(contractDto.getWageSupporter());
+        contract.setDividendSupporter(contractDto.getDividendSupporter());
+        contract.setProfitSupporter(contractDto.getProfitSupporter());
+        contract.setPropertyRentalIncomeSupporter(contractDto.getPropertyRentalIncomeSupporter());
+        contract.setOtherIncomeSupporter(contractDto.getOtherIncomeSupporter());
+        contract.setCostOfLiving(contractDto.getCostOfLiving());
+        contract.setInterestPaymentsOnLoans(contractDto.getInterestPaymentsOnLoans());
+        contract.setOtherCosts(contractDto.getOtherCosts());
+        contract.setOtherExtraordinaryIncome(contractDto.getOtherExtraordinaryIncome());
+        contract.setLoan(loan.get());
+
         Contract savedContract = contractRepository.save(contract);
         return ResponseEntity.ok(savedContract);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteContract(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> deleteContract(@PathVariable("id") Long id) {
         Optional<Contract> existingContract = contractRepository.findById(id);
         if (!existingContract.isPresent()) {
-            return ResponseEntity.notFound().build();
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         contractRepository.delete(existingContract.get());
-        return ResponseEntity.noContent().build();
+        SuccessResponse success = new SuccessResponse(200, "Delete address successfull");
+        return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 }

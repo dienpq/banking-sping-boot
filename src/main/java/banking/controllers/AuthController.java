@@ -1,7 +1,5 @@
 package banking.controllers;
 
-import java.net.URI;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,11 +33,7 @@ public class AuthController {
         user.setPrice(0.0);
 
         User savedUser = userRepository.save(user);
-        if (savedUser == null) {
-            throw new RuntimeException("Failed to register user");
-        }
-        return ResponseEntity.created(URI.create("/user/" + savedUser.getId()))
-                .body(savedUser);
+        return ResponseEntity.ok(savedUser);
     }
 
     @PostMapping("login")
@@ -48,10 +42,6 @@ public class AuthController {
         user.setAccount(userDto.getAccount());
         user.setPassword(userDto.getPassword());
         User savedUser = userRepository.save(user);
-        if (savedUser == null) {
-            throw new RuntimeException("Failed to register user");
-        }
-        return ResponseEntity.created(URI.create("/user/" + savedUser.getId()))
-                .body(savedUser);
+        return ResponseEntity.ok(savedUser);
     }
 }

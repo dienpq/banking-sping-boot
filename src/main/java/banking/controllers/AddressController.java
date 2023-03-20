@@ -88,7 +88,7 @@ public class AddressController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         addressRepository.delete(existingAddress.get());
-        SuccessResponse error = new SuccessResponse(200, "Delete address successfull");
-        return ResponseEntity.status(HttpStatus.OK).body(error);
+        SuccessResponse success = new SuccessResponse(200, "Delete address successfull");
+        return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 }

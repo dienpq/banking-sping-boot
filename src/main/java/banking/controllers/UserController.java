@@ -3,6 +3,7 @@ package banking.controllers;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import banking.dto.UserDto;
 import banking.entities.User;
+import banking.response.ErrorResponse;
+import banking.response.SuccessResponse;
 import banking.responsitories.UserRepository;
 import jakarta.validation.Valid;
 
@@ -24,17 +27,21 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> getUser(@PathVariable("id") Long id) {
         Optional<User> user = userRepository.findById(id);
-        return user.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        if (!user.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        return ResponseEntity.ok(user);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<Object> updateUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto userDto) {
         Optional<User> existingUser = userRepository.findById(id);
         if (!existingUser.isPresent()) {
-            return ResponseEntity.notFound().build();
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         User user = new User();
 
@@ -53,12 +60,14 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> deleteUser(@PathVariable("id") Long id) {
         Optional<User> existingUser = userRepository.findById(id);
         if (!existingUser.isPresent()) {
-            return ResponseEntity.notFound().build();
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         userRepository.delete(existingUser.get());
-        return ResponseEntity.noContent().build();
+        SuccessResponse success = new SuccessResponse(200, "Delete address successfull");
+        return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 }

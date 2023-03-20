@@ -1,9 +1,9 @@
 package banking.controllers;
 
-import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import banking.dto.LoanDto;
 import banking.entities.Loan;
+import banking.entities.TypeLoan;
+import banking.entities.User;
+import banking.response.ErrorResponse;
+import banking.response.SuccessResponse;
 import banking.responsitories.LoanRepository;
+import banking.responsitories.TypeLoanRepository;
+import banking.responsitories.UserRepository;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("loan")
@@ -23,41 +31,84 @@ public class LoanController {
     @Autowired
     private LoanRepository loanRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TypeLoanRepository typeLoanRepository;
+
     @GetMapping("/{id}")
-    public ResponseEntity<Loan> getLoan(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> getLoan(@PathVariable("id") Long id) {
         Optional<Loan> loan = loanRepository.findById(id);
-        return loan.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        if (!loan.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        return ResponseEntity.ok(loan);
     }
 
     @PostMapping
-    public ResponseEntity<Loan> createLoan(@RequestBody Loan loan) {
-        Loan savedLoan = loanRepository.save(loan);
-        if (savedLoan == null) {
-            throw new RuntimeException("Failed to save loan");
+    public ResponseEntity<Object> createLoan(@Valid @RequestBody LoanDto loanDto) {
+        Optional<User> user = userRepository.findById(loanDto.getUserId());
+        if (!user.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
-        return ResponseEntity.created(URI.create("/loans/" + savedLoan.getId()))
-                .body(savedLoan);
+        Optional<TypeLoan> typeLoan = typeLoanRepository.findById(loanDto.getTypeLoanId());
+        if (!typeLoan.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        Loan loan = new Loan();
+        loan.setCode(loanDto.getCode());
+        loan.setPrice(loanDto.getPrice());
+        loan.setPriceRemaining(loanDto.getPriceRemaining());
+        loan.setUser(user.get());
+        loan.setTypeLoan(typeLoan.get());
+
+        Loan savedLoan = loanRepository.save(loan);
+        return ResponseEntity.ok(savedLoan);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Loan> updateLoan(@PathVariable("id") Long id, @RequestBody Loan loan) {
+    public ResponseEntity<Object> updateLoan(@PathVariable("id") Long id, @Valid @RequestBody LoanDto loanDto) {
         Optional<Loan> existingLoan = loanRepository.findById(id);
         if (!existingLoan.isPresent()) {
-            return ResponseEntity.notFound().build();
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
+        Optional<User> user = userRepository.findById(loanDto.getUserId());
+        if (!user.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        Optional<TypeLoan> typeLoan = typeLoanRepository.findById(loanDto.getTypeLoanId());
+        if (!typeLoan.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        Loan loan = new Loan();
+
         loan.setId(id);
+        loan.setCode(loanDto.getCode());
+        loan.setPrice(loanDto.getPrice());
+        loan.setPriceRemaining(loanDto.getPriceRemaining());
+        loan.setUser(user.get());
+        loan.setTypeLoan(typeLoan.get());
+
         Loan savedLoan = loanRepository.save(loan);
         return ResponseEntity.ok(savedLoan);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteLoan(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> deleteLoan(@PathVariable("id") Long id) {
         Optional<Loan> existingLoan = loanRepository.findById(id);
         if (!existingLoan.isPresent()) {
-            return ResponseEntity.notFound().build();
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         loanRepository.delete(existingLoan.get());
-        return ResponseEntity.noContent().build();
+        SuccessResponse success = new SuccessResponse(200, "Delete address successfull");
+        return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 }

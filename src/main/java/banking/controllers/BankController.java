@@ -1,9 +1,9 @@
 package banking.controllers;
 
-import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import banking.dto.BankDto;
 import banking.entities.Bank;
+import banking.response.ErrorResponse;
+import banking.response.SuccessResponse;
 import banking.responsitories.BankRepository;
 import jakarta.validation.Valid;
 
@@ -26,10 +28,13 @@ public class BankController {
     private BankRepository bankRepository;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Bank> getBank(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> getBank(@PathVariable("id") Long id) {
         Optional<Bank> bank = bankRepository.findById(id);
-        return bank.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        if (!bank.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Bank not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        return ResponseEntity.ok(bank);
     }
 
     @PostMapping
@@ -42,19 +47,15 @@ public class BankController {
         bank.setDes(bankDto.getDes());
 
         Bank savedBank = bankRepository.save(bank);
-        if (savedBank == null) {
-            throw new RuntimeException("Failed to save bank");
-        }
-        return ResponseEntity.created(URI.create("/bank/" + savedBank.getId()))
-                .body(savedBank);
+        return ResponseEntity.ok(savedBank);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Bank> updateBank(@PathVariable("id") Long id, @Valid @RequestBody BankDto bankDto) {
+    public ResponseEntity<Object> updateBank(@PathVariable("id") Long id, @Valid @RequestBody BankDto bankDto) {
         Optional<Bank> existingBank = bankRepository.findById(id);
-        System.out.println(existingBank);
         if (!existingBank.isPresent()) {
-            return ResponseEntity.notFound().build();
+            ErrorResponse error = new ErrorResponse(404, "Bank not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Bank bank = new Bank();
 
@@ -69,12 +70,14 @@ public class BankController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBank(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> deleteBank(@PathVariable("id") Long id) {
         Optional<Bank> existingBank = bankRepository.findById(id);
         if (!existingBank.isPresent()) {
-            return ResponseEntity.notFound().build();
+            ErrorResponse error = new ErrorResponse(404, "Bank not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         bankRepository.delete(existingBank.get());
-        return ResponseEntity.noContent().build();
+        SuccessResponse success = new SuccessResponse(200, "Delete bank successfull");
+        return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 }

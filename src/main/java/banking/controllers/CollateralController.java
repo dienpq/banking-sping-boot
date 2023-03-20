@@ -1,9 +1,9 @@
 package banking.controllers;
 
-import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import banking.dto.CollateralDto;
 import banking.entities.Collateral;
+import banking.entities.Contract;
+import banking.response.ErrorResponse;
+import banking.response.SuccessResponse;
 import banking.responsitories.CollateralRepository;
+import banking.responsitories.ContractRepository;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("collateral")
@@ -23,42 +29,71 @@ public class CollateralController {
     @Autowired
     private CollateralRepository collateralRepository;
 
+    @Autowired
+    private ContractRepository contractRepository;
+
     @GetMapping("/{id}")
-    public ResponseEntity<Collateral> getcollateral(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> getcollateral(@PathVariable("id") Long id) {
         Optional<Collateral> collateral = collateralRepository.findById(id);
-        return collateral.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        if (!collateral.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        return ResponseEntity.ok(collateral);
     }
 
     @PostMapping
-    public ResponseEntity<Collateral> createcollateral(@RequestBody Collateral collateral) {
-        Collateral savedCollateral = collateralRepository.save(collateral);
-        if (savedCollateral == null) {
-            throw new RuntimeException("Failed to save collateral");
+    public ResponseEntity<Object> createcollateral(@Valid @RequestBody CollateralDto collateralDto) {
+        Optional<Contract> contract = contractRepository.findById(collateralDto.getContractId());
+        if (!contract.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
-        return ResponseEntity.created(URI.create("/collaterals/" + savedCollateral.getId()))
-                .body(savedCollateral);
+        Collateral collateral = new Collateral();
+        collateral.setName(collateralDto.getName());
+        collateral.setOwner(collateralDto.getOwner());
+        collateral.setRelationOwnerAndCustomer(collateralDto.getRelationOwnerAndCustomer());
+        collateral.setStatus(collateralDto.getStatus());
+        collateral.setContract(contract.get());
+
+        Collateral savedCollateral = collateralRepository.save(collateral);
+        return ResponseEntity.ok(savedCollateral);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Collateral> updatecollateral(@PathVariable("id") Long id,
-            @RequestBody Collateral collateral) {
+    public ResponseEntity<Object> updatecollateral(@PathVariable("id") Long id,
+            @Valid @RequestBody CollateralDto collateralDto) {
         Optional<Collateral> existingCollateral = collateralRepository.findById(id);
         if (!existingCollateral.isPresent()) {
-            return ResponseEntity.notFound().build();
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
+        Optional<Contract> contract = contractRepository.findById(collateralDto.getContractId());
+        if (!contract.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        Collateral collateral = new Collateral();
         collateral.setId(id);
-        Collateral savedcollateral = collateralRepository.save(collateral);
-        return ResponseEntity.ok(savedcollateral);
+        collateral.setName(collateralDto.getName());
+        collateral.setOwner(collateralDto.getOwner());
+        collateral.setRelationOwnerAndCustomer(collateralDto.getRelationOwnerAndCustomer());
+        collateral.setStatus(collateralDto.getStatus());
+        collateral.setContract(contract.get());
+
+        Collateral savedCollateral = collateralRepository.save(collateral);
+        return ResponseEntity.ok(savedCollateral);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletecollateral(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> deletecollateral(@PathVariable("id") Long id) {
         Optional<Collateral> existingCollateral = collateralRepository.findById(id);
         if (!existingCollateral.isPresent()) {
-            return ResponseEntity.notFound().build();
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         collateralRepository.delete(existingCollateral.get());
-        return ResponseEntity.noContent().build();
+        SuccessResponse success = new SuccessResponse(200, "Delete address successfull");
+        return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 }
