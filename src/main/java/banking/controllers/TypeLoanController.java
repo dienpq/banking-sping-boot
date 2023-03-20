@@ -46,7 +46,7 @@ public class TypeLoanController {
     public ResponseEntity<Object> createTypeLoan(@Valid @RequestBody TypeLoanDto typeLoanDto) {
         Optional<Bank> bank = bankRepository.findById(typeLoanDto.getBankId());
         if (!bank.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Type loan not found");
+            ErrorResponse error = new ErrorResponse(404, "Bank not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         TypeLoan typeLoan = new TypeLoan();

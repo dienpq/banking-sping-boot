@@ -47,7 +47,7 @@ public class CommitmentContentController {
             @Valid @RequestBody CommitmentContentDto commitmentContentDto) {
         Optional<TypeLoan> typeLoan = typeLoanRepository.findById(commitmentContentDto.getTypeLoanId());
         if (!typeLoan.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Commitment content not found");
+            ErrorResponse error = new ErrorResponse(404, "Type loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         CommitmentContent commitmentContent = new CommitmentContent();

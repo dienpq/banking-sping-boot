@@ -46,7 +46,7 @@ public class AddressController {
     public ResponseEntity<Object> createAddress(@Valid @RequestBody AddressDto addressDto) {
         Optional<Bank> bank = bankRepository.findById(addressDto.getBankId());
         if (!bank.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Bank not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Address address = new Address();

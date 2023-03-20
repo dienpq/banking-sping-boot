@@ -51,12 +51,12 @@ public class LoanController {
     public ResponseEntity<Object> createLoan(@Valid @RequestBody LoanDto loanDto) {
         Optional<User> user = userRepository.findById(loanDto.getUserId());
         if (!user.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Loan not found");
+            ErrorResponse error = new ErrorResponse(404, "User not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Optional<TypeLoan> typeLoan = typeLoanRepository.findById(loanDto.getTypeLoanId());
         if (!typeLoan.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Loan not found");
+            ErrorResponse error = new ErrorResponse(404, "Type loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Loan loan = new Loan();

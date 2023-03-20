@@ -46,7 +46,7 @@ public class CollateralController {
     public ResponseEntity<Object> createcollateral(@Valid @RequestBody CollateralDto collateralDto) {
         Optional<Contract> contract = contractRepository.findById(collateralDto.getContractId());
         if (!contract.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Collateral not found");
+            ErrorResponse error = new ErrorResponse(404, "Contract not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Collateral collateral = new Collateral();

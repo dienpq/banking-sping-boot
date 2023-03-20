@@ -46,7 +46,7 @@ public class ContractController {
     public ResponseEntity<Object> createContract(@Valid @RequestBody ContractDto contractDto) {
         Optional<Loan> loan = loanRepository.findById(contractDto.getLoanId());
         if (!loan.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Contract not found");
+            ErrorResponse error = new ErrorResponse(404, "Loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Contract contract = new Contract();
