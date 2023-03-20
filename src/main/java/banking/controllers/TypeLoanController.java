@@ -36,7 +36,7 @@ public class TypeLoanController {
     public ResponseEntity<Object> getTypeLoan(@PathVariable("id") Long id) {
         Optional<TypeLoan> typeLoan = typeLoanRepository.findById(id);
         if (!typeLoan.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Type loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         return ResponseEntity.ok(typeLoan);
@@ -46,7 +46,7 @@ public class TypeLoanController {
     public ResponseEntity<Object> createTypeLoan(@Valid @RequestBody TypeLoanDto typeLoanDto) {
         Optional<Bank> bank = bankRepository.findById(typeLoanDto.getBankId());
         if (!bank.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Type loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         TypeLoan typeLoan = new TypeLoan();
@@ -64,12 +64,12 @@ public class TypeLoanController {
             @Valid @RequestBody TypeLoanDto typeLoanDto) {
         Optional<TypeLoan> existingTypeLoan = typeLoanRepository.findById(id);
         if (!existingTypeLoan.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Type loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Optional<Bank> bank = bankRepository.findById(typeLoanDto.getBankId());
         if (!bank.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Bank not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         TypeLoan typeLoan = new TypeLoan();
@@ -88,11 +88,11 @@ public class TypeLoanController {
     public ResponseEntity<Object> deleteTypeLoan(@PathVariable("id") Long id) {
         Optional<TypeLoan> existingTypeLoan = typeLoanRepository.findById(id);
         if (!existingTypeLoan.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Type loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         typeLoanRepository.delete(existingTypeLoan.get());
-        SuccessResponse success = new SuccessResponse(200, "Delete address successfull");
+        SuccessResponse success = new SuccessResponse(200, "Delete type loan successfull");
         return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 }

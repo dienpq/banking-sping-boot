@@ -36,7 +36,7 @@ public class ContractController {
     public ResponseEntity<Object> getContract(@PathVariable("id") Long id) {
         Optional<Contract> contract = contractRepository.findById(id);
         if (!contract.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Contract not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         return ResponseEntity.ok(contract);
@@ -46,7 +46,7 @@ public class ContractController {
     public ResponseEntity<Object> createContract(@Valid @RequestBody ContractDto contractDto) {
         Optional<Loan> loan = loanRepository.findById(contractDto.getLoanId());
         if (!loan.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Contract not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Contract contract = new Contract();
@@ -110,12 +110,12 @@ public class ContractController {
             @Valid @RequestBody ContractDto contractDto) {
         Optional<Contract> existingContract = contractRepository.findById(id);
         if (!existingContract.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Contract not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Optional<Loan> loan = loanRepository.findById(contractDto.getLoanId());
         if (!loan.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Contract contract = new Contract();
@@ -179,11 +179,11 @@ public class ContractController {
     public ResponseEntity<Object> deleteContract(@PathVariable("id") Long id) {
         Optional<Contract> existingContract = contractRepository.findById(id);
         if (!existingContract.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Contract not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         contractRepository.delete(existingContract.get());
-        SuccessResponse success = new SuccessResponse(200, "Delete address successfull");
+        SuccessResponse success = new SuccessResponse(200, "Delete contract successfull");
         return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 }

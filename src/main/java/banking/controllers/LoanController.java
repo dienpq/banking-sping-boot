@@ -41,7 +41,7 @@ public class LoanController {
     public ResponseEntity<Object> getLoan(@PathVariable("id") Long id) {
         Optional<Loan> loan = loanRepository.findById(id);
         if (!loan.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         return ResponseEntity.ok(loan);
@@ -51,12 +51,12 @@ public class LoanController {
     public ResponseEntity<Object> createLoan(@Valid @RequestBody LoanDto loanDto) {
         Optional<User> user = userRepository.findById(loanDto.getUserId());
         if (!user.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Optional<TypeLoan> typeLoan = typeLoanRepository.findById(loanDto.getTypeLoanId());
         if (!typeLoan.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Loan loan = new Loan();
@@ -74,17 +74,17 @@ public class LoanController {
     public ResponseEntity<Object> updateLoan(@PathVariable("id") Long id, @Valid @RequestBody LoanDto loanDto) {
         Optional<Loan> existingLoan = loanRepository.findById(id);
         if (!existingLoan.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Optional<User> user = userRepository.findById(loanDto.getUserId());
         if (!user.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "User not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Optional<TypeLoan> typeLoan = typeLoanRepository.findById(loanDto.getTypeLoanId());
         if (!typeLoan.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Type loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Loan loan = new Loan();
@@ -104,11 +104,11 @@ public class LoanController {
     public ResponseEntity<Object> deleteLoan(@PathVariable("id") Long id) {
         Optional<Loan> existingLoan = loanRepository.findById(id);
         if (!existingLoan.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         loanRepository.delete(existingLoan.get());
-        SuccessResponse success = new SuccessResponse(200, "Delete address successfull");
+        SuccessResponse success = new SuccessResponse(200, "Delete loan successfull");
         return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 }

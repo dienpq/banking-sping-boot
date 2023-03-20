@@ -36,7 +36,7 @@ public class CollateralController {
     public ResponseEntity<Object> getcollateral(@PathVariable("id") Long id) {
         Optional<Collateral> collateral = collateralRepository.findById(id);
         if (!collateral.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Collateral not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         return ResponseEntity.ok(collateral);
@@ -46,7 +46,7 @@ public class CollateralController {
     public ResponseEntity<Object> createcollateral(@Valid @RequestBody CollateralDto collateralDto) {
         Optional<Contract> contract = contractRepository.findById(collateralDto.getContractId());
         if (!contract.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Collateral not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Collateral collateral = new Collateral();
@@ -65,12 +65,12 @@ public class CollateralController {
             @Valid @RequestBody CollateralDto collateralDto) {
         Optional<Collateral> existingCollateral = collateralRepository.findById(id);
         if (!existingCollateral.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Collateral not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Optional<Contract> contract = contractRepository.findById(collateralDto.getContractId());
         if (!contract.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Contract not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         Collateral collateral = new Collateral();
@@ -89,11 +89,11 @@ public class CollateralController {
     public ResponseEntity<Object> deletecollateral(@PathVariable("id") Long id) {
         Optional<Collateral> existingCollateral = collateralRepository.findById(id);
         if (!existingCollateral.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "Collateral not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         collateralRepository.delete(existingCollateral.get());
-        SuccessResponse success = new SuccessResponse(200, "Delete address successfull");
+        SuccessResponse success = new SuccessResponse(200, "Delete collateral successfull");
         return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 }

@@ -30,7 +30,7 @@ public class UserController {
     public ResponseEntity<Object> getUser(@PathVariable("id") Long id) {
         Optional<User> user = userRepository.findById(id);
         if (!user.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "User not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         return ResponseEntity.ok(user);
@@ -40,7 +40,7 @@ public class UserController {
     public ResponseEntity<Object> updateUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto userDto) {
         Optional<User> existingUser = userRepository.findById(id);
         if (!existingUser.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "User not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         User user = new User();
@@ -63,11 +63,11 @@ public class UserController {
     public ResponseEntity<Object> deleteUser(@PathVariable("id") Long id) {
         Optional<User> existingUser = userRepository.findById(id);
         if (!existingUser.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            ErrorResponse error = new ErrorResponse(404, "User not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         userRepository.delete(existingUser.get());
-        SuccessResponse success = new SuccessResponse(200, "Delete address successfull");
+        SuccessResponse success = new SuccessResponse(200, "Delete user successfull");
         return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 }
