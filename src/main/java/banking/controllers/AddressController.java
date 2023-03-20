@@ -1,9 +1,9 @@
 package banking.controllers;
 
-import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import banking.dto.AddressDto;
 import banking.entities.Address;
 import banking.entities.Bank;
+import banking.response.ErrorResponse;
+import banking.response.SuccessResponse;
 import banking.responsitories.AddressRepository;
 import banking.responsitories.BankRepository;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("address")
@@ -30,40 +33,62 @@ public class AddressController {
     private BankRepository bankRepository;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Address> getAddress(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> getAddress(@PathVariable("id") Long id) {
         Optional<Address> address = addressRepository.findById(id);
-        return address.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        if (!address.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        return ResponseEntity.ok(address);
     }
 
     @PostMapping
-    public ResponseEntity<Address> createAddress(@RequestBody AddressDto addressDto) {
+    public ResponseEntity<Object> createAddress(@Valid @RequestBody AddressDto addressDto) {
         Optional<Bank> bank = bankRepository.findById(addressDto.getBankId());
+        if (!bank.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
         Address address = new Address();
+        address.setName(addressDto.getName());
         address.setBank(bank.get());
+
         Address savedAddress = addressRepository.save(address);
-        return ResponseEntity.created(URI.create("/addresses/" + savedAddress.getId()))
-                .body(savedAddress);
+        return ResponseEntity.ok(savedAddress);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Address> updateAddress(@PathVariable("id") Long id, @RequestBody Address address) {
+    public ResponseEntity<Object> updateAddress(@PathVariable("id") Long id,
+            @Valid @RequestBody AddressDto addressDto) {
         Optional<Address> existingAddress = addressRepository.findById(id);
         if (!existingAddress.isPresent()) {
-            return ResponseEntity.notFound().build();
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
+        Optional<Bank> bank = bankRepository.findById(addressDto.getBankId());
+        if (!bank.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        Address address = new Address();
+
         address.setId(id);
+        address.setName(addressDto.getName());
+        address.setBank(bank.get());
+
         Address savedAddress = addressRepository.save(address);
         return ResponseEntity.ok(savedAddress);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAddress(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> deleteAddress(@PathVariable("id") Long id) {
         Optional<Address> existingAddress = addressRepository.findById(id);
         if (!existingAddress.isPresent()) {
-            return ResponseEntity.notFound().build();
+            ErrorResponse error = new ErrorResponse(404, "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         addressRepository.delete(existingAddress.get());
-        return ResponseEntity.noContent().build();
+        SuccessResponse error = new SuccessResponse(200, "Delete address successfull");
+        return ResponseEntity.status(HttpStatus.OK).body(error);
     }
 }

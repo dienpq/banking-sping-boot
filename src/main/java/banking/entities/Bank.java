@@ -31,11 +31,11 @@ public class Bank {
 
     private String des;
 
-    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Address> addresses;
 
-    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<TypeLoan> typeLoans;
 }
