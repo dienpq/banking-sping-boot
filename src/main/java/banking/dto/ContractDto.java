@@ -2,6 +2,7 @@ package banking.dto;
 
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -106,5 +107,6 @@ public class ContractDto {
 
     private String otherExtraordinaryIncome;
 
+    @NotNull
     private Long loanId;
 }

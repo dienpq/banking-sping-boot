@@ -11,7 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.Data;
 
 @Data
@@ -42,7 +41,6 @@ public class Loan {
     @JsonIgnore
     private User user;
 
-    @PrimaryKeyJoinColumn
     @OneToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     private Contract contract;

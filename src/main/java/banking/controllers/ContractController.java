@@ -51,6 +51,7 @@ public class ContractController {
         }
         Contract contract = new Contract();
 
+        contract.setId(contractDto.getLoanId());
         contract.setCode(contractDto.getCode());
         contract.setFullname(contractDto.getFullname());
         contract.setGender(contractDto.getGender());

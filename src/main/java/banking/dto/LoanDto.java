@@ -20,11 +20,9 @@ public class LoanDto {
 
     private String des;
 
+    @NotNull
     private Long typeLoanId;
 
     @NotNull
     private Long userId;
-
-    @NotNull
-    private Long contractId;
 }
