@@ -30,13 +30,13 @@ public class Contract {
 
     private String national;
 
-    private String identifier;
+    private String idNumber;
 
-    private LocalDate dateIdentifier;
+    private LocalDate issuedDate;
 
-    private String addressIdentifier;
+    private String issuedPlace;
 
-    private String domicileResidence;
+    private String permanentAddress;
 
     private String currentResidence;
 
