@@ -3,6 +3,7 @@ package banking.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailSendException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +28,11 @@ public class MailController {
             emailService.sendEmail(email.getEmailTo(), email.getSubject(), email.getContent());
             SuccessResponse success = new SuccessResponse(200, "Send email successfull");
             return ResponseEntity.status(HttpStatus.OK).body(success);
+        } catch (MailSendException e) {
+            ErrorResponse error = new ErrorResponse(500, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         } catch (MessagingException e) {
-            ErrorResponse error = new ErrorResponse(500, "Send email fail");
+            ErrorResponse error = new ErrorResponse(500, e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
