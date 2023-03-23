@@ -47,7 +47,7 @@ public class ContractDto {
     private String email;
 
     // Tình trạng hôn nhân
-    private String maritalStatus;
+    private String marital;
 
     // Trình độ học vấn
     private String academicLevel;

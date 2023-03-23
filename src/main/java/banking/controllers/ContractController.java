@@ -64,7 +64,7 @@ public class ContractController {
         contract.setCurrentResidence(contractDto.getCurrentResidence());
         contract.setPhone(contractDto.getPhone());
         contract.setEmail(contractDto.getEmail());
-        contract.setMaritalStatus(contractDto.getMaritalStatus());
+        contract.setMarital(contractDto.getMarital());
         contract.setAcademicLevel(contractDto.getAcademicLevel());
         contract.setHomeOwnership(contractDto.getHomeOwnership());
         contract.setVehicles(contractDto.getVehicles());
@@ -134,7 +134,7 @@ public class ContractController {
         contract.setCurrentResidence(contractDto.getCurrentResidence());
         contract.setPhone(contractDto.getPhone());
         contract.setEmail(contractDto.getEmail());
-        contract.setMaritalStatus(contractDto.getMaritalStatus());
+        contract.setMarital(contractDto.getMarital());
         contract.setAcademicLevel(contractDto.getAcademicLevel());
         contract.setHomeOwnership(contractDto.getHomeOwnership());
         contract.setVehicles(contractDto.getVehicles());

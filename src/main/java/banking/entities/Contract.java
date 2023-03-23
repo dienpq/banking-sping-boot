@@ -44,7 +44,7 @@ public class Contract {
 
     private String email;
 
-    private String maritalStatus;
+    private String marital;
 
     private String academicLevel;
 
