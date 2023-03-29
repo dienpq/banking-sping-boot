@@ -79,9 +79,6 @@ public class ContractDto {
     // Mục đính vay vốn
     private String loanPurpose;
 
-    // Mô tả mục đính vay vốn
-    private String desLoanPurpose;
-
     // Số tiền vay
     private Double priceLoan;
 

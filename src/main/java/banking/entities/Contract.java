@@ -66,8 +66,6 @@ public class Contract {
 
     private String loanPurpose;
 
-    private String desLoanPurpose;
-
     private Double priceLoan;
 
     private Integer timeLoan;

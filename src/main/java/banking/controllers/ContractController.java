@@ -75,7 +75,6 @@ public class ContractController {
         contract.setTypeContractJob(contractDto.getTypeContractJob());
         contract.setTypeReceiveWage(contractDto.getTypeReceiveWage());
         contract.setLoanPurpose(contractDto.getLoanPurpose());
-        contract.setDesLoanPurpose(contractDto.getDesLoanPurpose());
         contract.setPriceLoan(contractDto.getPriceLoan());
         contract.setTimeLoan(contractDto.getTimeLoan());
         contract.setTimeLoanCurrent(contractDto.getTimeLoanCurrent());
@@ -145,7 +144,6 @@ public class ContractController {
         contract.setTypeContractJob(contractDto.getTypeContractJob());
         contract.setTypeReceiveWage(contractDto.getTypeReceiveWage());
         contract.setLoanPurpose(contractDto.getLoanPurpose());
-        contract.setDesLoanPurpose(contractDto.getDesLoanPurpose());
         contract.setPriceLoan(contractDto.getPriceLoan());
         contract.setTimeLoan(contractDto.getTimeLoan());
         contract.setTimeLoanCurrent(contractDto.getTimeLoanCurrent());
