@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import banking.common.RandomCodeGenerator;
 import banking.dto.ContractDto;
+import banking.dto.UpdateStatusContractDto;
 import banking.entities.Contract;
 import banking.entities.Loan;
 import banking.response.ErrorResponse;
@@ -49,10 +51,12 @@ public class ContractController {
             ErrorResponse error = new ErrorResponse(404, "Loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
+        RandomCodeGenerator code = new RandomCodeGenerator(12);
+
         Contract contract = new Contract();
 
         contract.setId(contractDto.getLoanId());
-        contract.setCode(contractDto.getCode());
+        contract.setCode(code.generateRandomCode());
         contract.setFullname(contractDto.getFullname());
         contract.setGender(contractDto.getGender());
         contract.setBirthday(contractDto.getBirthday());
@@ -99,6 +103,7 @@ public class ContractController {
         contract.setInterestPaymentsOnLoans(contractDto.getInterestPaymentsOnLoans());
         contract.setOtherCosts(contractDto.getOtherCosts());
         contract.setOtherExtraordinaryIncome(contractDto.getOtherExtraordinaryIncome());
+        contract.setStatus(0);
         contract.setLoan(loan.get());
 
         Contract savedContract = contractRepository.save(contract);
@@ -121,7 +126,6 @@ public class ContractController {
         Contract contract = new Contract();
 
         contract.setId(id);
-        contract.setCode(contractDto.getCode());
         contract.setFullname(contractDto.getFullname());
         contract.setGender(contractDto.getGender());
         contract.setBirthday(contractDto.getBirthday());
@@ -168,10 +172,27 @@ public class ContractController {
         contract.setInterestPaymentsOnLoans(contractDto.getInterestPaymentsOnLoans());
         contract.setOtherCosts(contractDto.getOtherCosts());
         contract.setOtherExtraordinaryIncome(contractDto.getOtherExtraordinaryIncome());
+        contract.setStatus(0);
         contract.setLoan(loan.get());
 
         Contract savedContract = contractRepository.save(contract);
         return ResponseEntity.ok(savedContract);
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Object> updateStatusContract(@PathVariable("id") Long id,
+            @Valid @RequestBody UpdateStatusContractDto updateStatusContractDto) {
+        Optional<Contract> existingContract = contractRepository.findById(id);
+        if (!existingContract.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Contract not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        Contract contract = existingContract.get();
+        contract.setStatus(updateStatusContractDto.getStatus());
+        System.out.println(updateStatusContractDto);
+        SuccessResponse success = new SuccessResponse(200, "Update status contract successfull");
+        contractRepository.save(contract);
+        return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 
     @DeleteMapping("/{id}")
@@ -184,5 +205,15 @@ public class ContractController {
         contractRepository.delete(existingContract.get());
         SuccessResponse success = new SuccessResponse(200, "Delete contract successfull");
         return ResponseEntity.status(HttpStatus.OK).body(success);
+    }
+
+    @GetMapping("/{id}/status")
+    public ResponseEntity<Object> getStatusContract(@PathVariable("id") Long id) {
+        Optional<Contract> contract = contractRepository.findById(id);
+        if (!contract.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Contract not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        return ResponseEntity.ok(contract);
     }
 }

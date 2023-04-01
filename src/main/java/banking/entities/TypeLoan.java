@@ -31,6 +31,7 @@ public class TypeLoan {
     @Column(nullable = false)
     private Double interest;
 
+    @Column(columnDefinition = "TEXT")
     private String des;
 
     @JoinColumn(nullable = false)

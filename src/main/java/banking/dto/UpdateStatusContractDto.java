@@ -8,15 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoanDto {
+public class UpdateStatusContractDto {
     @NotNull
-    private Double priceRemaining;
-
-    private String des;
-
-    @NotNull
-    private Long typeLoanId;
-
-    @NotNull
-    private Long userId;
+    private int status;
 }

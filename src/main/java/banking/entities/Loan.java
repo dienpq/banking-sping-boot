@@ -2,7 +2,6 @@ package banking.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,9 +23,6 @@ public class Loan {
     private String code;
 
     @Column(nullable = false)
-    private Double price;
-
-    @Column(nullable = false)
     private Double priceRemaining;
 
     private String des;
@@ -41,7 +37,7 @@ public class Loan {
     @JsonIgnore
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "loan")
     @JsonIgnore
     private Contract contract;
 }

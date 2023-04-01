@@ -42,6 +42,16 @@ public class TypeLoanController {
         return ResponseEntity.ok(typeLoan);
     }
 
+    @GetMapping
+    public ResponseEntity<Object> getAllTypeLoan() {
+        Iterable<TypeLoan> typeLoans = typeLoanRepository.findAll();
+        if (!typeLoans.iterator().hasNext()) {
+            ErrorResponse error = new ErrorResponse(404, "Type loan not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        return ResponseEntity.ok(typeLoans);
+    }
+
     @PostMapping
     public ResponseEntity<Object> createTypeLoan(@Valid @RequestBody TypeLoanDto typeLoanDto) {
         Optional<Bank> bank = bankRepository.findById(typeLoanDto.getBankId());
@@ -53,6 +63,7 @@ public class TypeLoanController {
         typeLoan.setName(typeLoanDto.getName());
         typeLoan.setInvitation(typeLoanDto.getInvitation());
         typeLoan.setInterest(typeLoanDto.getInterest());
+        typeLoan.setDes(typeLoanDto.getDes());
         typeLoan.setBank(bank.get());
 
         TypeLoan savedTypeLoan = typeLoanRepository.save(typeLoan);
@@ -78,6 +89,7 @@ public class TypeLoanController {
         typeLoan.setName(typeLoanDto.getName());
         typeLoan.setInvitation(typeLoanDto.getInvitation());
         typeLoan.setInterest(typeLoanDto.getInterest());
+        typeLoan.setDes(typeLoanDto.getDes());
         typeLoan.setBank(bank.get());
 
         TypeLoan savedTypeLoan = typeLoanRepository.save(typeLoan);

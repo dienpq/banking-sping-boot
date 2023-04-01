@@ -11,9 +11,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Contract {
     @Id
@@ -113,6 +117,8 @@ public class Contract {
     private String otherCosts;
 
     private String otherExtraordinaryIncome;
+
+    private int status;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)

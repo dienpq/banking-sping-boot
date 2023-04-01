@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ContractDto {
-    private String code;
-
     // Họ tên
     private String fullname;
 

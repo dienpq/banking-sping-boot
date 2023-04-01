@@ -1,5 +1,9 @@
 package banking.controllers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +16,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import banking.common.RandomCodeGenerator;
 import banking.dto.LoanDto;
+import banking.entities.Contract;
 import banking.entities.Loan;
 import banking.entities.TypeLoan;
 import banking.entities.User;
@@ -59,9 +66,10 @@ public class LoanController {
             ErrorResponse error = new ErrorResponse(404, "Type loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
+        RandomCodeGenerator code = new RandomCodeGenerator(12);
+        System.out.println(code.generateRandomCode());
         Loan loan = new Loan();
-        loan.setCode(loanDto.getCode());
-        loan.setPrice(loanDto.getPrice());
+        loan.setCode(code.generateRandomCode());
         loan.setPriceRemaining(loanDto.getPriceRemaining());
         loan.setUser(user.get());
         loan.setTypeLoan(typeLoan.get());
@@ -90,8 +98,6 @@ public class LoanController {
         Loan loan = new Loan();
 
         loan.setId(id);
-        loan.setCode(loanDto.getCode());
-        loan.setPrice(loanDto.getPrice());
         loan.setPriceRemaining(loanDto.getPriceRemaining());
         loan.setUser(user.get());
         loan.setTypeLoan(typeLoan.get());
@@ -110,5 +116,31 @@ public class LoanController {
         loanRepository.delete(existingLoan.get());
         SuccessResponse success = new SuccessResponse(200, "Delete loan successfull");
         return ResponseEntity.status(HttpStatus.OK).body(success);
+    }
+
+    @GetMapping("list")
+    public ResponseEntity<Object> getAllLoanBySatusAndUser(@RequestParam("status") String status) {
+        Long id = (long) 1;
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Loan not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        Iterable<Loan> loans = loanRepository.findAllByUser(user.get());
+        if (!loans.iterator().hasNext()) {
+            ErrorResponse error = new ErrorResponse(404, "Type loan not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        List<Map<String, Object>> loanList = new ArrayList<>();
+        for (Loan loan : loans) {
+            if (status.equals("all") || loan.getContract().getStatus() == Integer.parseInt(status)) {
+                Contract contract = loan.getContract();
+                Map<String, Object> loanMap = new HashMap<>();
+                loanMap.put("loan", loan);
+                loanMap.put("contract", contract);
+                loanList.add(loanMap);
+            }
+        }
+        return ResponseEntity.ok(loanList);
     }
 }
