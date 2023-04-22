@@ -25,5 +25,8 @@ public class UserDto {
     private String email;
 
     @NotNull
+    private String bankAccount;
+
+    @NotNull
     private Double price;
 }

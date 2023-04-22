@@ -28,9 +28,6 @@ public class TypeLoan {
     @Column(nullable = false)
     private String invitation;
 
-    @Column(nullable = false)
-    private Double interest;
-
     @Column(columnDefinition = "TEXT")
     private String des;
 
@@ -46,4 +43,8 @@ public class TypeLoan {
     @OneToMany(mappedBy = "typeLoan", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<CommitmentContent> commitmentContents;
+
+    @OneToMany(mappedBy = "typeLoan", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<ExpiryDate> expiryDates;
 }

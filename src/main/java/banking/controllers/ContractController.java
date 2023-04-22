@@ -1,5 +1,6 @@
 package banking.controllers;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,6 +106,8 @@ public class ContractController {
         contract.setOtherExtraordinaryIncome(contractDto.getOtherExtraordinaryIncome());
         contract.setStatus(0);
         contract.setLoan(loan.get());
+        contract.setCreatedAt(LocalDateTime.now());
+        contract.setUpdatedAt(LocalDateTime.now());
 
         Contract savedContract = contractRepository.save(contract);
         return ResponseEntity.ok(savedContract);
@@ -174,6 +177,7 @@ public class ContractController {
         contract.setOtherExtraordinaryIncome(contractDto.getOtherExtraordinaryIncome());
         contract.setStatus(0);
         contract.setLoan(loan.get());
+        contract.setUpdatedAt(LocalDateTime.now());
 
         Contract savedContract = contractRepository.save(contract);
         return ResponseEntity.ok(savedContract);

@@ -1,5 +1,7 @@
 package banking.controllers;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +32,10 @@ public class AuthController {
         user.setGender("");
         user.setPhone("");
         user.setEmail("");
+        user.setBankAccount("222340829");
         user.setPrice(0.0);
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
 
         User savedUser = userRepository.save(user);
         return ResponseEntity.ok(savedUser);

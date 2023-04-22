@@ -8,15 +8,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TypeLoanDto {
+public class ExpiryDateDto {
     @NotNull
-    private String name;
+    private Long amountMonth;
 
     @NotNull
-    private String invitation;
-
-    private String des;
+    private Float interest;
 
     @NotNull
-    private Long bankId;
+    private Long typeLoanId;
 }

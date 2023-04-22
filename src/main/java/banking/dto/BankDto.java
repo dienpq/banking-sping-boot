@@ -18,5 +18,8 @@ public class BankDto {
     @NotNull
     private String email;
 
+    @NotNull
+    private String account;
+
     private String des;
 }

@@ -29,6 +29,9 @@ public class Bank {
     @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    private String account;
+
     private String des;
 
     @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL)

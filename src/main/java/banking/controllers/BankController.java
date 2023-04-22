@@ -44,6 +44,7 @@ public class BankController {
         bank.setName(bankDto.getName());
         bank.setHotline(bankDto.getHotline());
         bank.setEmail(bankDto.getEmail());
+        bank.setAccount(bankDto.getAccount());
         bank.setDes(bankDto.getDes());
 
         Bank savedBank = bankRepository.save(bank);
@@ -63,6 +64,7 @@ public class BankController {
         bank.setName(bankDto.getName());
         bank.setHotline(bankDto.getHotline());
         bank.setEmail(bankDto.getEmail());
+        bank.setAccount(bankDto.getAccount());
         bank.setDes(bankDto.getDes());
 
         Bank savedBank = bankRepository.save(bank);

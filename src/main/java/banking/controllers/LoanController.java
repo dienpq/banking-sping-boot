@@ -27,6 +27,7 @@ import banking.entities.TypeLoan;
 import banking.entities.User;
 import banking.response.ErrorResponse;
 import banking.response.SuccessResponse;
+import banking.responsitories.ContractRepository;
 import banking.responsitories.LoanRepository;
 import banking.responsitories.TypeLoanRepository;
 import banking.responsitories.UserRepository;
@@ -43,6 +44,9 @@ public class LoanController {
 
     @Autowired
     private TypeLoanRepository typeLoanRepository;
+
+    @Autowired
+    private ContractRepository contractRepository;
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getLoan(@PathVariable("id") Long id) {
@@ -143,4 +147,34 @@ public class LoanController {
         }
         return ResponseEntity.ok(loanList);
     }
+
+    @GetMapping("/{id}/contract")
+    public ResponseEntity<Object> getContractByLoan(@PathVariable("id") Long id) {
+        Optional<Contract> contract = contractRepository.findContractByLoanId(id);
+        if (!contract.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Contract not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        return ResponseEntity.ok(contract);
+    }
+
+    @GetMapping("/{id}/calculate-interest")
+    public ResponseEntity<Object> calculateInterest(@PathVariable("id") Long id) {
+        Optional<Loan> loan = loanRepository.findById(id);
+        if (!loan.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Contract not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+
+        Optional<Contract> contract = contractRepository.findContractByLoanId(id);
+        if (!contract.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Contract not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+
+        // Float principal = 0;
+
+        return ResponseEntity.ok(contract);
+    }
+
 }

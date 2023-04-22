@@ -12,48 +12,63 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ContractDto {
     // Họ tên
+    @NotNull
     private String fullname;
 
     // Giới tính
+    @NotNull
     private String gender;
 
     // Ngày sinh
+    @NotNull
     private LocalDate birthday;
 
     // Quốc tịch
+    @NotNull
     private String national;
 
     // Số CCCD
+    @NotNull
     private String idNumber;
 
     // Ngày cấp
+    @NotNull
     private LocalDate issuedDate;
 
     // Nơi cấp
+    @NotNull
     private String issuedPlace;
 
     // Địa chỉ thương trú
+    @NotNull
     private String permanentAddress;
 
     // Nơi ở hiện tại
+    @NotNull
     private String currentResidence;
 
     // Số điện thoại
+    @NotNull
     private String phone;
 
     // Email
+    @NotNull
     private String email;
 
     // Tình trạng hôn nhân
+    @NotNull
     private String marital;
 
     // Trình độ học vấn
+    @NotNull
     private String academicLevel;
 
     // Hình thức sở hữu nhà ở
+    @NotNull
     private String homeOwnership;
 
     // Phương tiện đi lại
+    @NotNull
     private String vehicles;
 
     // Tên công ty
@@ -66,33 +81,41 @@ public class ContractDto {
     private String addressCompany;
 
     // Nghề nghiệp
+    @NotNull
     private String job;
 
     // Loại hình hợp đồng lao động
+    @NotNull
     private String typeContractJob;
 
     // Hình thức nhận lương
+    @NotNull
     private String typeReceiveWage;
 
     // Mục đính vay vốn
+    @NotNull
     private String loanPurpose;
 
     // Số tiền vay
+    @NotNull
     private Double priceLoan;
 
     // Thời hạn vay
+    @NotNull
     private Integer timeLoan;
 
     // Ân hạn gốc
     private Integer timeLoanCurrent;
 
     // Phương thức trả nợ
+    @NotNull
     private String debtPaymentMethod;
 
     // Đề xuất khác
     private String otherSuggestions;
 
     // Lương
+    @NotNull
     private Double wage;
 
     // Cổ tức
@@ -146,7 +169,7 @@ public class ContractDto {
     // Chi phí khác
     private String otherCosts;
 
-    // Các khoản thu nhập bất thườn khác
+    // Các khoản thu nhập bất thường khác
     private String otherExtraordinaryIncome;
 
     @NotNull

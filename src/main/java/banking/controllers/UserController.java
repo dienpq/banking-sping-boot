@@ -1,5 +1,6 @@
 package banking.controllers;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,9 @@ public class UserController {
         user.setGender(userDto.getGender());
         user.setPhone(userDto.getPhone());
         user.setEmail(userDto.getEmail());
+        user.setBankAccount(userDto.getBankAccount());
         user.setPrice(userDto.getPrice());
+        user.setUpdatedAt(LocalDateTime.now());
 
         User savedUser = userRepository.save(user);
         return ResponseEntity.ok(savedUser);
