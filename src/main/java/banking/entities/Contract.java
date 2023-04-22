@@ -39,7 +39,7 @@ public class Contract {
 
     private LocalDate birthday;
 
-    private String national;
+    private String nationality;
 
     private String idNumber;
 

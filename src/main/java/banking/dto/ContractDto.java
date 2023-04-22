@@ -25,7 +25,7 @@ public class ContractDto {
 
     // Quốc tịch
     @NotNull
-    private String national;
+    private String nationality;
 
     // Số CCCD
     @NotNull

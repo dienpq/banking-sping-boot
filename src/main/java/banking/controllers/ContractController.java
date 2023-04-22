@@ -61,7 +61,7 @@ public class ContractController {
         contract.setFullname(contractDto.getFullname());
         contract.setGender(contractDto.getGender());
         contract.setBirthday(contractDto.getBirthday());
-        contract.setNational(contractDto.getNational());
+        contract.setNationality(contractDto.getNationality());
         contract.setIdNumber(contractDto.getIdNumber());
         contract.setIssuedDate(contractDto.getIssuedDate());
         contract.setIssuedPlace(contractDto.getIssuedPlace());
@@ -132,7 +132,7 @@ public class ContractController {
         contract.setFullname(contractDto.getFullname());
         contract.setGender(contractDto.getGender());
         contract.setBirthday(contractDto.getBirthday());
-        contract.setNational(contractDto.getNational());
+        contract.setNationality(contractDto.getNationality());
         contract.setIdNumber(contractDto.getIdNumber());
         contract.setIssuedDate(contractDto.getIssuedDate());
         contract.setIssuedPlace(contractDto.getIssuedPlace());
