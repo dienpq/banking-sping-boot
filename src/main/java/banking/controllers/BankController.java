@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import banking.dto.BankDto;
 import banking.entities.Bank;
+import banking.reponsitories.BankRepository;
 import banking.response.ErrorResponse;
 import banking.response.SuccessResponse;
-import banking.responsitories.BankRepository;
 import jakarta.validation.Valid;
 
 @RestController

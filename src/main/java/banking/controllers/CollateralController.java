@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import banking.dto.CollateralDto;
 import banking.entities.Collateral;
 import banking.entities.Contract;
+import banking.reponsitories.CollateralRepository;
+import banking.reponsitories.ContractRepository;
 import banking.response.ErrorResponse;
 import banking.response.SuccessResponse;
-import banking.responsitories.CollateralRepository;
-import banking.responsitories.ContractRepository;
 import jakarta.validation.Valid;
 
 @RestController

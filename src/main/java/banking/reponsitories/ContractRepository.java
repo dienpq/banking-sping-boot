@@ -1,4 +1,4 @@
-package banking.responsitories;
+package banking.reponsitories;
 
 import java.util.Optional;
 

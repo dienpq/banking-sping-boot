@@ -25,12 +25,12 @@ import banking.entities.Contract;
 import banking.entities.Loan;
 import banking.entities.TypeLoan;
 import banking.entities.User;
+import banking.reponsitories.ContractRepository;
+import banking.reponsitories.LoanRepository;
+import banking.reponsitories.TypeLoanRepository;
+import banking.reponsitories.UserRepository;
 import banking.response.ErrorResponse;
 import banking.response.SuccessResponse;
-import banking.responsitories.ContractRepository;
-import banking.responsitories.LoanRepository;
-import banking.responsitories.TypeLoanRepository;
-import banking.responsitories.UserRepository;
 import jakarta.validation.Valid;
 
 @RestController

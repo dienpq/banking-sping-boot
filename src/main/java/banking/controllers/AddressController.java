@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import banking.dto.AddressDto;
 import banking.entities.Address;
 import banking.entities.Bank;
+import banking.reponsitories.AddressRepository;
+import banking.reponsitories.BankRepository;
 import banking.response.ErrorResponse;
 import banking.response.SuccessResponse;
-import banking.responsitories.AddressRepository;
-import banking.responsitories.BankRepository;
 import jakarta.validation.Valid;
 
 @RestController

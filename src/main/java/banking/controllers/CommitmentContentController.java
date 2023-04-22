@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import banking.dto.CommitmentContentDto;
 import banking.entities.CommitmentContent;
 import banking.entities.TypeLoan;
+import banking.reponsitories.CommitmentContentRepository;
+import banking.reponsitories.TypeLoanRepository;
 import banking.response.ErrorResponse;
 import banking.response.SuccessResponse;
-import banking.responsitories.CommitmentContentRepository;
-import banking.responsitories.TypeLoanRepository;
 import jakarta.validation.Valid;
 
 @RestController

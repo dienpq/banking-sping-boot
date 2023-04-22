@@ -16,16 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import banking.dto.ExpiryDateDto;
 import banking.entities.ExpiryDate;
+import banking.entities.TypeLoan;
+import banking.reponsitories.ExpiryDateReponsitory;
+import banking.reponsitories.TypeLoanRepository;
 import banking.response.ErrorResponse;
 import banking.response.SuccessResponse;
-import banking.responsitories.ExpiryDateResponsitory;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("expiry-date")
 public class ExpiryDateController {
     @Autowired
-    private ExpiryDateResponsitory expiryDateResponsitory;
+    private ExpiryDateReponsitory expiryDateResponsitory;
+
+    @Autowired
+    private TypeLoanRepository typeLoanRepository;
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getBank(@PathVariable("id") Long id) {
@@ -38,12 +43,18 @@ public class ExpiryDateController {
     }
 
     @PostMapping
-    public ResponseEntity<ExpiryDate> createBank(@Valid @RequestBody ExpiryDateDto expiryDateDto) {
+    public ResponseEntity<Object> createBank(@Valid @RequestBody ExpiryDateDto expiryDateDto) {
+        Optional<TypeLoan> typeLoan = typeLoanRepository.findById(expiryDateDto.getTypeLoanId());
+        if (!typeLoan.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Type loan not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+
         ExpiryDate expiryDate = new ExpiryDate();
 
         expiryDate.setAmountMonth(expiryDateDto.getAmountMonth());
         expiryDate.setInterest(expiryDateDto.getInterest());
-        expiryDate.setTypeLoan(expiryDate.getTypeLoan());
+        expiryDate.setTypeLoan(typeLoan.get());
 
         ExpiryDate savedExpiryDate = expiryDateResponsitory.save(expiryDate);
         return ResponseEntity.ok(savedExpiryDate);
@@ -54,7 +65,12 @@ public class ExpiryDateController {
             @Valid @RequestBody ExpiryDateDto expiryDateDto) {
         Optional<ExpiryDate> existingExpiryDate = expiryDateResponsitory.findById(id);
         if (!existingExpiryDate.isPresent()) {
-            ErrorResponse error = new ErrorResponse(404, "Bank not found");
+            ErrorResponse error = new ErrorResponse(404, "ExpiryDate not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        Optional<TypeLoan> typeLoan = typeLoanRepository.findById(expiryDateDto.getTypeLoanId());
+        if (!typeLoan.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Type loan not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
         ExpiryDate expiryDate = new ExpiryDate();
@@ -62,7 +78,7 @@ public class ExpiryDateController {
         expiryDate.setId(id);
         expiryDate.setAmountMonth(expiryDateDto.getAmountMonth());
         expiryDate.setInterest(expiryDateDto.getInterest());
-        expiryDate.setTypeLoan(expiryDate.getTypeLoan());
+        expiryDate.setTypeLoan(typeLoan.get());
 
         ExpiryDate savedExpiryDate = expiryDateResponsitory.save(expiryDate);
         return ResponseEntity.ok(savedExpiryDate);

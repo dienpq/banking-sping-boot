@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import banking.dto.LoginDto;
 import banking.dto.RegisterDto;
 import banking.entities.User;
-import banking.responsitories.UserRepository;
+import banking.reponsitories.UserRepository;
 import jakarta.validation.Valid;
 
 @RestController

@@ -1,5 +1,6 @@
 package banking.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import banking.dto.TypeLoanDto;
 import banking.entities.Bank;
+import banking.entities.ExpiryDate;
 import banking.entities.TypeLoan;
+import banking.reponsitories.BankRepository;
+import banking.reponsitories.ExpiryDateReponsitory;
+import banking.reponsitories.TypeLoanRepository;
 import banking.response.ErrorResponse;
 import banking.response.SuccessResponse;
-import banking.responsitories.BankRepository;
-import banking.responsitories.TypeLoanRepository;
 import jakarta.validation.Valid;
 
 @RestController
@@ -28,6 +31,9 @@ import jakarta.validation.Valid;
 public class TypeLoanController {
     @Autowired
     private TypeLoanRepository typeLoanRepository;
+
+    @Autowired
+    private ExpiryDateReponsitory expiryDateReponsitory;
 
     @Autowired
     private BankRepository bankRepository;
@@ -104,5 +110,16 @@ public class TypeLoanController {
         typeLoanRepository.delete(existingTypeLoan.get());
         SuccessResponse success = new SuccessResponse(200, "Delete type loan successfull");
         return ResponseEntity.status(HttpStatus.OK).body(success);
+    }
+
+    @GetMapping("/{id}/expiry-date")
+    public ResponseEntity<Object> findAllByTypeLoanId(@PathVariable("id") Long id) {
+        Optional<TypeLoan> existingTypeLoan = typeLoanRepository.findById(id);
+        if (!existingTypeLoan.isPresent()) {
+            ErrorResponse error = new ErrorResponse(404, "Type loan not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+        List<ExpiryDate> expiryDate = expiryDateReponsitory.findAllByTypeLoanId(id);
+        return ResponseEntity.ok(expiryDate);
     }
 }
