@@ -62,7 +62,6 @@ public class TypeLoanController {
         TypeLoan typeLoan = new TypeLoan();
         typeLoan.setName(typeLoanDto.getName());
         typeLoan.setInvitation(typeLoanDto.getInvitation());
-        typeLoan.setInterest(typeLoanDto.getInterest());
         typeLoan.setDes(typeLoanDto.getDes());
         typeLoan.setBank(bank.get());
 
@@ -88,7 +87,6 @@ public class TypeLoanController {
         typeLoan.setId(id);
         typeLoan.setName(typeLoanDto.getName());
         typeLoan.setInvitation(typeLoanDto.getInvitation());
-        typeLoan.setInterest(typeLoanDto.getInterest());
         typeLoan.setDes(typeLoanDto.getDes());
         typeLoan.setBank(bank.get());
 
