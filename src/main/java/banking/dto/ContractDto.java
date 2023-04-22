@@ -104,9 +104,6 @@ public class ContractDto {
     @NotNull
     private Integer timeLoan;
 
-    // Ân hạn gốc
-    private Integer timeLoanCurrent;
-
     // Phương thức trả nợ
     @NotNull
     private String debtPaymentMethod;

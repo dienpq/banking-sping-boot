@@ -81,8 +81,6 @@ public class Contract {
 
     private Integer timeLoan;
 
-    private Integer timeLoanCurrent;
-
     private String debtPaymentMethod;
 
     private String otherSuggestions;
