@@ -104,6 +104,9 @@ public class ContractDto {
     @NotNull
     private Integer timeLoan;
 
+    @NotNull
+    private Float interestLoan;
+
     // Phương thức trả nợ
     @NotNull
     private String debtPaymentMethod;

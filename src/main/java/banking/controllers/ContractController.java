@@ -82,6 +82,7 @@ public class ContractController {
         contract.setLoanPurpose(contractDto.getLoanPurpose());
         contract.setPriceLoan(contractDto.getPriceLoan());
         contract.setTimeLoan(contractDto.getTimeLoan());
+        contract.setInterestLoan(contractDto.getInterestLoan());
         contract.setDebtPaymentMethod(contractDto.getDebtPaymentMethod());
         contract.setOtherSuggestions(contractDto.getOtherSuggestions());
         contract.setWage(contractDto.getWage());
@@ -152,6 +153,7 @@ public class ContractController {
         contract.setLoanPurpose(contractDto.getLoanPurpose());
         contract.setPriceLoan(contractDto.getPriceLoan());
         contract.setTimeLoan(contractDto.getTimeLoan());
+        contract.setInterestLoan(contractDto.getInterestLoan());
         contract.setDebtPaymentMethod(contractDto.getDebtPaymentMethod());
         contract.setOtherSuggestions(contractDto.getOtherSuggestions());
         contract.setWage(contractDto.getWage());
