@@ -104,8 +104,13 @@ public class ContractDto {
     @NotNull
     private Integer timeLoan;
 
+    // Lãi suất
     @NotNull
-    private Float interestLoan;
+    private Double interestLoan;
+
+    // Lãi suất trả muộn/phạt
+    @NotNull
+    private Double penaltyInterestRate;
 
     // Phương thức trả nợ
     @NotNull

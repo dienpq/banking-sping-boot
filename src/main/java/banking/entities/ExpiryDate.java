@@ -23,6 +23,9 @@ public class ExpiryDate {
     @Column(nullable = false)
     private Float interest;
 
+    @Column(nullable = false)
+    private Float penaltyInterestRate;
+
     @ManyToOne(targetEntity = TypeLoan.class)
     @JsonIgnore
     private TypeLoan typeLoan;

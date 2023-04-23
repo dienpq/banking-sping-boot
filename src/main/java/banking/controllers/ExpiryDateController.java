@@ -54,6 +54,7 @@ public class ExpiryDateController {
 
         expiryDate.setAmountMonth(expiryDateDto.getAmountMonth());
         expiryDate.setInterest(expiryDateDto.getInterest());
+        expiryDate.setPenaltyInterestRate(expiryDateDto.getPenaltyInterestRate());
         expiryDate.setTypeLoan(typeLoan.get());
 
         ExpiryDate savedExpiryDate = expiryDateResponsitory.save(expiryDate);
@@ -78,6 +79,7 @@ public class ExpiryDateController {
         expiryDate.setId(id);
         expiryDate.setAmountMonth(expiryDateDto.getAmountMonth());
         expiryDate.setInterest(expiryDateDto.getInterest());
+        expiryDate.setPenaltyInterestRate(expiryDateDto.getPenaltyInterestRate());
         expiryDate.setTypeLoan(typeLoan.get());
 
         ExpiryDate savedExpiryDate = expiryDateResponsitory.save(expiryDate);

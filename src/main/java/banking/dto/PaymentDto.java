@@ -8,16 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExpiryDateDto {
+public class PaymentDto {
     @NotNull
-    private Long amountMonth;
+    private Double price;
 
-    @NotNull
-    private Float interest;
-
-    @NotNull
-    private Float penaltyInterestRate;
-
-    @NotNull
-    private Long typeLoanId;
+    private String des;
 }

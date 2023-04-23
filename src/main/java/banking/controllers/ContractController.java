@@ -83,6 +83,7 @@ public class ContractController {
         contract.setPriceLoan(contractDto.getPriceLoan());
         contract.setTimeLoan(contractDto.getTimeLoan());
         contract.setInterestLoan(contractDto.getInterestLoan());
+        contract.setPenaltyInterestRate(contractDto.getPenaltyInterestRate());
         contract.setDebtPaymentMethod(contractDto.getDebtPaymentMethod());
         contract.setOtherSuggestions(contractDto.getOtherSuggestions());
         contract.setWage(contractDto.getWage());
@@ -129,6 +130,7 @@ public class ContractController {
         Contract contract = new Contract();
 
         contract.setId(id);
+        contract.setCode(existingContract.get().getCode());
         contract.setFullname(contractDto.getFullname());
         contract.setGender(contractDto.getGender());
         contract.setBirthday(contractDto.getBirthday());
@@ -154,6 +156,7 @@ public class ContractController {
         contract.setPriceLoan(contractDto.getPriceLoan());
         contract.setTimeLoan(contractDto.getTimeLoan());
         contract.setInterestLoan(contractDto.getInterestLoan());
+        contract.setPenaltyInterestRate(contractDto.getPenaltyInterestRate());
         contract.setDebtPaymentMethod(contractDto.getDebtPaymentMethod());
         contract.setOtherSuggestions(contractDto.getOtherSuggestions());
         contract.setWage(contractDto.getWage());

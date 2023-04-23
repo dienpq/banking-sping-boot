@@ -81,7 +81,9 @@ public class Contract {
 
     private Integer timeLoan;
 
-    private Float interestLoan;
+    private Double interestLoan;
+
+    private Double penaltyInterestRate;
 
     private String debtPaymentMethod;
 

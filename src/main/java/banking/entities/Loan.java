@@ -1,5 +1,7 @@
 package banking.entities;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -10,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Data;
 
 @Data
@@ -24,6 +28,20 @@ public class Loan {
 
     @Column(nullable = false)
     private Double priceRemaining;
+
+    @Column(nullable = false)
+    private Double amountPaid;
+
+    @Column(nullable = false)
+    private Double latePayment;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime closingStatement;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime dueDate;
 
     private String des;
 
