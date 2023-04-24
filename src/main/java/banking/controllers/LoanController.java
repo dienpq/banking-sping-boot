@@ -190,7 +190,8 @@ public class LoanController {
 
         Double tienGocHangThang = priceLoan / timeLoan;
         Double tienLaiThangNay = loan.get().getPriceRemaining() * (interestLoan / 100) / timeLoan;
-        Double tienPhatTraMuon = loan.get().getLatePayment() * contract.get().getPenaltyInterestRate() / 100 * 30;
+        Double tienPhatTraMuon = loan.get().getLatePayment()
+                + loan.get().getLatePayment() * contract.get().getPenaltyInterestRate() / 100 * 30;
         Double soTienDaTra = loan.get().getAmountPaid();
 
         Double paymentMin = tienGocHangThang + tienLaiThangNay - soTienDaTra;
@@ -221,8 +222,9 @@ public class LoanController {
 
         Double tienGocHangThang = priceLoan / timeLoan;
         Double tienLaiThangNay = existingLoan.get().getPriceRemaining() * (interestLoan / 100) / timeLoan;
-        Double tienPhatTraMuon = existingLoan.get().getLatePayment() * contract.get().getPenaltyInterestRate() / 100
-                * 30;
+        Double tienPhatTraMuon = existingLoan.get().getLatePayment()
+                + existingLoan.get().getLatePayment() * contract.get().getPenaltyInterestRate() / 100
+                        * 30;
         Double soTienDaTra = existingLoan.get().getAmountPaid();
 
         Double priceRemaining = existingLoan.get().getPriceRemaining() - priceLoan / timeLoan;
